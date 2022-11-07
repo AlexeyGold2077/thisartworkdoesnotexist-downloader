@@ -1,0 +1,23 @@
+#!/bin/bash
+echo -n "Enter quantity: "
+read call
+if [[ call > 0 ]]; then
+	CUTIME=0
+	TSTART=$(date +%s%N)
+	for (( i = 0; i < call; i++ )); do
+		echo -n "$i. "
+		CSTART=$(date +%s%N)
+		curl -s -o arts/$i https://thisartworkdoesnotexist.com/
+		CEND=$(date +%s%N)
+		CTIME=$((($CEND - $CSTART)/1000000))
+		CUTIME=$(($CUTIME+$CTIME))
+		echo "done in $CTIME ms."
+		sleep 1
+		# echo "wait..."
+	done
+	TEND=$(date +%s%N)
+	TTIME=$((($TEND - $TSTART)/1000000))
+	echo "------------------"
+	echo "Total curl time - $CUTIME ms."
+	echo "Time spent - $TTIME ms."
+fi
